@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 public class Task implements Serializable {
@@ -14,10 +13,10 @@ public class Task implements Serializable {
     }
 
     public List<String> getSearchTerms() {
-        return Collections.unmodifiableList(searchTerms);
+        return searchTerms;
     }
 
     public List<String> getDocuments() {
-        return Collections.unmodifiableList(documents);
+        return documents;
     }
 }

@@ -16,17 +16,20 @@ import java.util.stream.Collectors;
 public class SearchWorker implements OnRequestCallback {
     private static final String ENDPOINT = "/task";
 
-    @Override
     public byte[] handleRequest(byte[] requestPayload) {
         Task task = (Task) SerializationUtils.deserialize(requestPayload);
         Result result = createResult(task);
         return SerializationUtils.serialize(result);
     }
 
+    @Override
+    public String getEndpoint() {
+        return ENDPOINT;
+    }
+
     private Result createResult(Task task) {
         List<String> documents = task.getDocuments();
-        System.out.println(String.format("Received %d documents to process", documents.size()));
-
+        System.out.printf("Received %d documents to process%n", documents.size());
         Result result = new Result();
 
         for (String document : documents) {
@@ -38,19 +41,16 @@ public class SearchWorker implements OnRequestCallback {
     }
 
     private List<String> parseWordsFromDocument(String document) {
+        FileReader fileReader = null;
         try {
-            FileReader fileReader = new FileReader(document);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            List<String> lines = bufferedReader.lines().collect(Collectors.toList());
-            List<String> words = TFIDF.getWordsFromDocument(lines);
-            return words;
+            fileReader = new FileReader(document);
         } catch (FileNotFoundException e) {
             return Collections.emptyList();
         }
-    }
 
-    @Override
-    public String getEndpoint() {
-        return ENDPOINT;
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+        List<String> words = TFIDF.getWordsFromDocument(lines);
+        return words;
     }
 }

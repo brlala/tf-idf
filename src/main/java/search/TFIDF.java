@@ -27,7 +27,7 @@ public class TFIDF {
         return documentData;
     }
 
-    public static Map<Double, List<String>> getDocumentsSortedByScore(List<String> terms,
+    public static Map<Double, List<String>> getDocumentsScores(List<String> terms,
                                                                Map<String, DocumentData> documentResults) {
         TreeMap<Double, List<String>> scoreToDoc = new TreeMap<>();
 
@@ -52,7 +52,7 @@ public class TFIDF {
         scoreToDoc.put(score, booksWithCurrentScore);
     }
 
-    private static double calculateDocumentScore(List<String> terms,                                                 DocumentData documentData,                                                 Map<String, Double> termToInverseDocumentFrequency) {
+    private static double calculateDocumentScore(List<String> terms, DocumentData documentData, Map<String, Double> termToInverseDocumentFrequency) {
         double score = 0;
         for (String term : terms) {
             double termFrequency = documentData.getFrequency(term);

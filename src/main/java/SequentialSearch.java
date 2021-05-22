@@ -37,7 +37,7 @@ public class SequentialSearch {
             documentsResults.put(document, documentData);
         }
 
-        Map<Double, List<String>> documentsByScore = TFIDF.getDocumentsSortedByScore(terms, documentsResults);
+        Map<Double, List<String>> documentsByScore = TFIDF.getDocumentsScores(terms, documentsResults);
         printResults(documentsByScore);
     }
 
